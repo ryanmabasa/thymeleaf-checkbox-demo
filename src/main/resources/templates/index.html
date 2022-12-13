@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <form th:action="@{/}" th:object="${form}" method="post">
+        <input type="checkbox" th:onclick="ReportViewer.onClick();" />
+        <input type="text" name="checked"/>
+        <button type="submit">Submit Form</button>
+    </form>
+</div>
+
+<script th:inline="javascript" >
+
+
+var ReportViewer = (function defineReportViewer(d) {
+
+    var checked = false;
+
+    function onLoad(checkedFromModel){
+        var input = d.getElementsByName("checked");
+        input[0].value = checkedFromModel;
+        checked=checkedFromModel;
+    }
+
+    function onClick() {
+        checked = !checked;
+        var input = d.getElementsByName("checked");
+        input[0].value = checked;
+    }
+
+
+    return {
+        onLoad: onLoad,
+        onClick: onClick
+    };
+
+})(window.document);
+
+ReportViewer.onLoad([[${form.isChecked}]]);
+</script>
+</body>
+</html>
